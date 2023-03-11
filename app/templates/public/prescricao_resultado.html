@@ -1,0 +1,126 @@
+{%extends "public/public_templates.html"%}
+
+{% block title %}
+Prescrição_resultados
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <h1>Análise Prescrição</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-start"> Nº Processo</th>
+            <td class="text-start"> {{dados_prescricao['processo'] }}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start"> Réu</th>
+            <td class="text-start"> {{dados_prescricao['reu'] }}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start"> Legislação</th>
+            <td class="text-start"> {{dados_prescricao['legislacao'] }}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start"> Tipo penal</th>
+            <td class="text-start"> {{dados_prescricao['crime'] }}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start"> Data do Fato</th>
+            <td class="text-start"> {{corrige_ordem_da_data_str (dados_prescricao['data_fato']) }}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start"> Data do Recebimento da Denúncia</th>
+            {% if dados_prescricao['Dt_Denuncia'] %}
+            <td class="text-start"> {{corrige_ordem_da_data_str (dados_prescricao['Dt_Denuncia'] ) }}</td>
+
+            {%else%}
+            <td class="text-start"> -</td>
+            {% endif %}
+        </tr>
+
+
+        <tr>
+            <th class="text-start"> Prazo da Prescrição do crime (anos)</th>
+            <td class="text-start"> {{resultado['prazo_prescricao']}}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start"> Suspensão da prescrição</th>
+            {% if dados_prescricao['suspensao_prescricao_bool'] == "True" %}
+            <td class="text-start">Sim</td>
+            {%else%}
+            <td class="text-start">Não</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            <th class="text-start"> Data de início da suspensão da prescrição</th>
+
+            {% if dados_prescricao['Dt_inicio_suspensao'] %}
+            <td class="text-start"> {{corrige_ordem_da_data_str (dados_prescricao['Dt_inicio_suspensao']) }}</td>
+            {%else%}
+            <td class="text-start"> -</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            <th class="text-start"> Data de fim da suspensão da prescrição</th>
+            {% if dados_prescricao['Dt_fim_suspensao'] %}
+            <td class="text-start"> {{corrige_ordem_da_data_str (dados_prescricao['Dt_fim_suspensao']) }}</td>
+            {%else%}
+            <td class="text-start"> -</td>
+            {% endif %}
+        </tr>
+
+
+        <tr>
+            <th class="text-start"> Tempo de suspensão (dias)</th>
+            <td class="text-start"> {{resultado['tempo_suspensao']}}</td>
+        </tr>
+
+        <tr>
+            <th class="text-start">Tempo decorrido para verificação da prescricão</th>
+            {% if resultado['tempo_decorrido_para_prescricao'] <= 1 %}
+            <td class="text-start"> Período igual ou inferior a um ano</td>
+            {%else%}
+            <td class="text-start"> {{resultado['tempo_decorrido_para_prescricao']}}</td>
+            {%endif%}
+        </tr>
+
+        <tr>
+            <th class="text-start"> Crime Prescreveu? </th>
+            {% if resultado['resultado'] == "True" %}
+            <td class="text-start">Sim </td>
+            {%else%}
+            <td class="text-start">Não </td>
+            {% endif %}
+
+
+        </tr>
+
+
+
+        </thead>
+
+    </table>
+
+</div>
+
+<div class="container">
+    <h1>Parecer</h1>
+    <p> Processo nº {{dados_prescricao['processo'] }}</p>
+    <p> Réu: {{dados_prescricao['reu'] }}</p>
+    <p>{{parecer}}</p>
+</div>
+<br><br><br><br>
+
+
+{% endblock %}
+
